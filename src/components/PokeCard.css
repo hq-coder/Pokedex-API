@@ -1,0 +1,42 @@
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+.poke-card {
+  display: flex;
+  flex-direction: column; /* change the flex direction to column */
+  align-items: center;
+  box-shadow: 2px 3px 5px black;
+  margin-left: 10%;
+}
+
+.poke-card img {
+  width: 700px;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 20px; /* add margin bottom to separate the image from the content */
+}
+
+.poke-card h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.poke-card p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.poke-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.poke-card li {
+  margin: 5px 0;
+}

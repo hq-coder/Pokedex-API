@@ -1,0 +1,91 @@
+nav {
+  background: linear-gradient(to right, #333333 , #000000 90%);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  padding: 10px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: white;
+ 
+}
+
+
+ul {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  z-index: 9999;
+
+
+}
+
+li {
+  margin-right: 20px;
+}
+
+.home {
+  color: white;
+  font-size: 44px;
+}
+
+a:hover {
+  color: white;
+  text-shadow: 3px 3px 3px red; 
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+  .search-container {
+    float: none;
+  }
+  input[type=text] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.pikachu-image {
+  position: sticky;
+  top: 10px;
+  right: -100px;
+  animation: movePikachu 11s linear infinite;
+  height: 70px;
+  z-index: 10;
+}
+
+@keyframes movePikachu {
+  0% {
+    right: -100px;
+    left: 100%;
+  }
+  100% {
+    right: 100%;
+    left: -100px;
+  }
+}
+
+.rolling-pokeball {
+  position: sticky;
+  top: 20px;
+  right: -90px;
+  animation: rolling-pokeball 10.5s linear infinite;
+  height: 20px;
+  z-index: 10;
+}
+
+@keyframes rolling-pokeball {
+  0% {
+    right: -100px;
+    left: 100%;
+  }
+  100% {
+    right: 100%;
+    left: -100px;
+  }
+}
+
