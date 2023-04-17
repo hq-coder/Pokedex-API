@@ -1,4 +1,5 @@
 import './App.css';
+import './styles.scss';
 import PokeList from './components/PokeList';
 import PokeCard from './components/PokeCard';
 import PokeSearch from './components/PokeSearch'

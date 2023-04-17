@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PokeCard from './PokeCard';
-import "./PokeList.css"
-import { Card, Row, Col } from 'react-bootstrap';
+//import "./PokeList.css"
+import "../styles.scss";
 import electric from "../../src/images/electric.png";
 import grass from "../../src/images/leaf.png";
-import poison from "../../src/images/poison.png";
+import poison from "../../src/images/poison.webp";
 import fairy from "../../src/images/fairy.png";
 import fire from "../../src/images/fire.png";
 import ground from "../../src/images/ground.png";
 import normal from "../../src/images/normal.png";
-import water from "../../src/images/water.jpeg";
-import psychic from "../../src/images/psychic.jpeg";
+import water from "../../src/images/water.png";
 import ice from "../../src/images/ice.png";
 import dragon from "../../src/images/dragon.png";
 import dark from "../../src/images/dark.jpeg";
 import steel from "../../src/images/steel.png";
+import bannerImage from '../images/pokemon-Header.png';
+
 
 
 const PokeList = () => {
   const [allPokemons, setAllPokemons] = useState([]);
-  const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const [evolutionChain, setEvolutionChain] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
 
   useEffect(() => {
     const fetchAllPokemons = async () => {
       try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=800');
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=1208');
         const data = response.data;
 
         // Get additional data for each Pokemon
@@ -43,12 +44,13 @@ const PokeList = () => {
           name: pokemon.name,
           image: pokemon.sprites.front_default,
           type: pokemon.types.map((type) => type.type.name),
-          weight: pokemon.weight,
-          height: pokemon.height,
-          stats: pokemon.stats
+          stats: pokemon.stats,
+          abilities: pokemon.abilities.map((ability) => ability.ability.name).join(', '),
+          moves: pokemon.moves.slice(0, 2).map((move) => move.move.name).join(', '),
         }));
 
         setAllPokemons(combinedData);
+        setLoading(false); // Set loading state to false when data is fetched
       } catch (error) {
         console.error(error);
       }
@@ -56,23 +58,16 @@ const PokeList = () => {
 
     fetchAllPokemons();
   }, []);
+  useEffect(() => {
+    const filtered = allPokemons.filter(pokemon =>
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pokemon.id.toString().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPokemons(filtered);
+  }, [allPokemons, searchTerm]);
+  
 
-  const handlePokemonClick = async (pokemon) => {
-    setSelectedPokemon(pokemon);
-
-    try {
-      const speciesResponse = await axios.get(pokemon.species.url);
-      const evolutionChainResponse = await axios.get(speciesResponse.data.evolution_chain.url);
-      setEvolutionChain(evolutionChainResponse.data.chain);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const handleBackButtonClick = () => {
-    setSelectedPokemon(null);
-    setEvolutionChain(null);
-  }
+  
 
   const getBackgroundImageUrl = (type) => {
     switch (type) {
@@ -97,11 +92,11 @@ const PokeList = () => {
             case 'fighting':
               return { backgroundImage: `url("${ground}")` };
               case 'psychic':
-                return { backgroundImage: `url("${psychic}")` };
+                return { backgroundImage: `url("${poison}")` };
                 case 'rock':
                   return { backgroundImage: `url("${ground}")` };
                   case 'ghost':
-                return { backgroundImage: `url("${psychic}")` };
+                return { backgroundImage: `url("${poison}")` };
                 case 'ice':
                   return { backgroundImage: `url("${ice}")` };
                   case 'dragon':
@@ -116,47 +111,60 @@ const PokeList = () => {
   };
   
       
-  
-
-  if (selectedPokemon) {
-    return (
-      <div className="poke-card">
-        <PokeCard pokemon={selectedPokemon}/>
-        <button onClick={handleBackButtonClick}>Back to List</button>
-        {evolutionChain.length > 0 && (
-          <div className="evolution-chain">
-            <h2>Evolution Chain:</h2>
-            <div className="evolution-chain-list">
-              {evolutionChain.map((evolution) => (
-                <span key={evolution}>{evolution}</span>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
   return (
     <div className="poke-list">
-      <Row xs={6} lg={9} className="g-4">
-        {allPokemons.map((pokemon) => (
-          <Col key={pokemon.id}>
-            <Card className="poke-item" onClick={() => handlePokemonClick(pokemon)} style={{
-                ...getBackgroundImageUrl(pokemon.type[0]),
-                backgroundSize: 'cover'
-              }}>
-              <Card.Img variant="top" src={pokemon.image} alt={pokemon.name} />
-              <Card.Body>
-                <Card.Text>#{pokemon.id}</Card.Text>
-                <Card.Title>{pokemon.name}</Card.Title>
-                <Card.Text>Type: {pokemon.type}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <input
+        type="text"
+        placeholder="Search Pokemons"
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
+        className="search-bar"
+      />
+      <img src={bannerImage} alt="banner" className="pokemon-header" />
+      <br />
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-center g-">
+          {filteredPokemons.map((pokemon) => (
+            <div key={pokemon.id} className="col">
+              <h2>{pokemon.name}</h2>
+              <div
+                className="poke-item"
+                style={{
+                  ...getBackgroundImageUrl(pokemon.type[0]),
+                  backgroundSize: "cover",
+                  height: "425px",
+                  position: "relative",
+                }}
+              >
+                <img
+                  src={pokemon.image}
+                  alt={pokemon.name}
+                  style={{
+                    width: "82%",
+                    height: "50%",
+                    marginLeft: "9.2%",
+                    position: "absolute",
+                    top: "55px",
+                  }}
+                />
+                <div className="poke-details">
+                  <h4>#: {pokemon.id}</h4>
+                  <div>Type: {pokemon.type}</div>
+                  <br />
+                  <h6>Abilities: {pokemon.abilities}</h6>
+                  <h6>Moves: {pokemon.moves}</h6>
+                  <button className='pokedex-button1'>PokeDex</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default PokeList;

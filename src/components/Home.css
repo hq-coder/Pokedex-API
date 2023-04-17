@@ -4,6 +4,12 @@ height: 120vh;
 width: 100%;
     justify-content: center;
     align-items: center;
+    background-image: url('../images/pokeWall.png');
+    background-size: cover;
+    background-position: center;
+
+    
+
   }
   
   h1 {

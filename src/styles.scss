@@ -1,0 +1,85 @@
+
+$searchBarBorderColor: rgb(0, 0, 0);
+$searchBarBorderWidth: 1px;
+$searchBarBorderRadius: 10px;
+$searchBarPadding: 10px;
+
+$pokemonHeaderWidth: 90%;
+$pokemonHeaderMargin: 5%;
+$pokemonHeaderMaxHeight: 250px;
+
+$pokeItemHeight: 425px;
+$pokeItemBackgroundSize: cover;
+$pokeItemPosition: relative;
+
+$pokeItemImageWidth: 82%;
+$pokeItemImageHeight: 50%;
+$pokeItemImageMarginLeft: 9.2%;
+$pokeItemImagePosition: absolute;
+$pokeItemImageTop: 55px;
+
+.poke-list {
+  input.search-bar {
+    border: $searchBarBorderWidth solid $searchBarBorderColor;
+    border-radius: $searchBarBorderRadius;
+    padding: $searchBarPadding;
+  }
+  
+  img.pokemon-header {
+    width: $pokemonHeaderWidth;
+    margin: $pokemonHeaderMargin;
+    max-height: $pokemonHeaderMaxHeight;
+  }
+  
+  .row-cols-1,
+  .row-cols-md-2,
+  .row-cols-lg-3 {
+    justify-content: center;
+  }
+  
+  .col {
+    margin-bottom: 30px;
+  }
+  
+  .poke-item {
+    height: $pokeItemHeight;
+    background-size: $pokeItemBackgroundSize;
+    position: $pokeItemPosition;
+    
+    img {
+      width: $pokeItemImageWidth;
+      height: $pokeItemImageHeight;
+      margin-left: $pokeItemImageMarginLeft;
+      position: $pokeItemImagePosition;
+      top: $pokeItemImageTop;
+    }
+  }
+}
+$primary-color: #1e00ff;
+$secondary-color: #39a0fb;
+
+.button {
+  background-color: $primary-color;
+  color: rgb(255, 255, 255);
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+}
+
+
+.card {
+    padding: 1rem;
+    border: 1px solid #ccc;
+  
+    &__title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+  
+    &__body {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+  }
+  
