@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-//import "./PokeList.css"
-import "../styles.scss";
+import "./PokeList.css"
 import electric from "../../src/images/electric.png";
 import grass from "../../src/images/leaf.png";
 import poison from "../../src/images/poison.webp";
@@ -134,8 +133,9 @@ const PokeList = () => {
                 style={{
                   ...getBackgroundImageUrl(pokemon.type[0]),
                   backgroundSize: "cover",
-                  height: "425px",
                   position: "relative",
+                  overflow: "visible",
+                
                 }}
               >
                 <img

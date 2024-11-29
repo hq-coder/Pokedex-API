@@ -1,42 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PokeCard = () => {
+const PokeCard = ({ searchTerm }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!searchTerm) return; // Skip fetching if no search term
+
     const getCards = async () => {
       setLoading(true);
-      const response = await axios.get('https://api.pokemontcg.io/v2/cards', {
-        headers: {
-          'X-Api-Key': 'f578f40d-a043-4b99-a37b-3e9cca98715e'
-        },
-      });
-      setCards(response.data.data);
+      try {
+        const response = await axios.get(
+          `https://api.pokemontcg.io/v2/cards?q=name:${searchTerm}`,
+          {
+            headers: {
+              'X-Api-Key': 'f578f40d-a043-4b99-a37b-3e9cca98715e',
+            },
+          }
+        );
+        setCards(response.data.data);
+      } catch (error) {
+        console.error('Error fetching TCG cards:', error);
+        setCards([]); // Reset if error occurs
+      }
       setLoading(false);
     };
+
     getCards();
-  }, []);
+  }, [searchTerm]);
 
   return (
-    <div>
-      <h1>PokeCard App</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {cards.map((card) => (
-            <li key={card.id}>
-              <img src={card.images.small} alt={card.name} />
-              <h3>{card.name}</h3>
-              <p>{card.set.name}</p>
-              <p>{card.rarity}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <div className="tcg-card-section">
+  <h2>TCG Cards for "{searchTerm}"</h2>
+  {loading ? (
+    <p>Loading...</p>
+  ) : cards.length > 0 ? (
+    <ul>
+      {cards.map((card) => (
+        <li key={card.id}>
+          <img src={card.images.small} alt={card.name} />
+          <h3>{card.name}</h3>
+          <p>{card.set.name}</p>
+          <p>{card.rarity}</p>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No cards found for "{searchTerm}".</p>
+  )}
+</div>
+
   );
 };
 
