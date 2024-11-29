@@ -40,3 +40,10 @@
 .poke-card li {
   margin: 5px 0;
 }
+
+
+.tcg-card-section h3{
+  font-size: 18px;
+  font-family: 'pixel', monospace;
+  color: #ff0000;
+}

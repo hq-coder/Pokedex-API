@@ -13,7 +13,7 @@
 
 /* Main Body Styling */
 .body {
-  background-image: url('../images/Pokedex.png');
+
   background-size: 60%;
   background-position: center;
   background-repeat: no-repeat;
@@ -118,14 +118,17 @@ input[type="text"] {
 
 /* Pokémon Search Result Section */
 .pokedex-container2 {
+  background-image: url('../images/Pokedex.png');
+  background-repeat: no-repeat;
+  background-size: 55%;
+  background-position: center;
   margin-top: 2rem;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  background-color: transparent;
   border: none;
   max-height: 40vh;
-  overflow: auto;
+  overflow: hidden;
   padding: 1rem;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -177,6 +180,14 @@ input[type="text"] {
   height: auto;
   margin-bottom: 0.5rem;
   border-radius: 8px;
+}
+
+.pokedex-container2 .Poke-Sprites {
+  display: 'flex';
+  flex-direction: 'column';
+  align-items: 'center';
+  width: '50%'
+              
 }
 
 /* Animations for Elements */

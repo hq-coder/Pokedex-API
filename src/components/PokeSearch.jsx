@@ -79,11 +79,14 @@ function PokeSearch() {
         {results.map((pokemon) => {
           const id = pokemon.id;
           const name = pokemon.name;
-          const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
           const type = pokemon.types.map((type) => type.type.name).join(', ');
           const weight = pokemon.weight / 10;
           const height = pokemon.height / 10;
           const abilities = pokemon.abilities.map((ability) => ability.ability.name).join(', ');
+
+          // Regular and Shiny Sprite URLs
+          const regularSprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+          const shinySprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`;
 
           return (
             <Card
@@ -99,12 +102,22 @@ function PokeSearch() {
                 maxHeight: '40vh',
               }}
             >
-              <Card.Img
-                variant="left"
-                src={image}
-                alt={name}
-                style={{ width: '50%', objectFit: 'contain', paddingLeft: '90px' }}
-              />
+              <div className="Poke-Sprites" >
+                  <Card.Img
+                  variant="top"
+                  src={regularSprite}
+                  alt={name}
+                  style={{ width: '100px', objectFit: 'contain', marginBottom: '10px' }}
+                />
+               
+                <Card.Img
+                  variant="top"
+                  src={shinySprite}
+                  alt={`${name} shiny`}
+                  style={{ width: '100px', objectFit: 'contain' }}
+                />
+                 <h2>Shiny</h2>
+              </div>
               <Card.Body
                 style={{
                   width: '55%',
