@@ -1,7 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import { SiPokemon } from "react-icons/si"
 import { Card,} from 'react-bootstrap';
-import YouTube from 'react-youtube';
 import PokeCard from './PokeCard';
 
 import './PokeSearch.css';
@@ -145,8 +144,7 @@ function PokeSearch() {
         })}
      
       </div>
-      <PokeCard />
-      <YouTube videoId={videoId}  className="youtube1"/>
+      <PokeCard /> 
    </div>
   );
 }

@@ -146,7 +146,7 @@ const PokeList = () => {
                     height: "50%",
                     marginLeft: "9.2%",
                     position: "absolute",
-                    top: "55px",
+                    top: "90px",
                   }}
                 />
                 <div className="poke-details">

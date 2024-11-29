@@ -3,16 +3,16 @@
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
-    position: absolute;
+    position:absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 142vh;
+    height: 182vh;
   }
 
 .body {
     background-image: url('../images/Pokedex.png');
-    background-size: 90%;
+    background-size: 60%;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
@@ -22,7 +22,7 @@
     width: 100%;
     height: 110vh;
     margin: 0;
-    position: relative;
+    position:sticky;
   }
   
   
@@ -41,7 +41,7 @@
             }
        
             100% {
-              color: rgb(85, 56, 56);
+              color: rgb(255, 0, 0);
             }
           }
           
@@ -172,8 +172,3 @@
     }
 
 
-
-    .youtube1{
-      position: absolute;
-      align-items: center;
-    }
