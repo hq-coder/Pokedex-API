@@ -21,6 +21,20 @@ const PokeCard = ({ searchTerm }) => {
           }
         );
 
+        function PokemonCard({ searchTerm, onClick, style }) {
+          if (!searchTerm) return null;
+        
+          return (
+            <div 
+              style={{ ...style }} // Apply the passed styles
+              onClick={onClick} // Attach the onClick handler
+            >
+              <h3>{searchTerm}</h3>
+              <p>Click to view details</p>
+            </div>
+          );
+        }
+
         // Sort cards alphabetically by name
         const sortedCards = response.data.data.sort((a, b) =>
           a.name.localeCompare(b.name)
@@ -36,6 +50,17 @@ const PokeCard = ({ searchTerm }) => {
 
     getCards();
   }, [searchTerm]);
+  
+  function PokeCard({ searchTerm, onClick }) {
+    if (!searchTerm) return null;
+  
+    return (
+      <div onClick={onClick} style={{ cursor: 'pointer' }}>
+        <h3>{searchTerm}</h3>
+        <p>Click to view details</p>
+      </div>
+    );
+  }
 
   return (
     <div className="tcg-card-section">

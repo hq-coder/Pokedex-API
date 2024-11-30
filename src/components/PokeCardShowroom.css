@@ -1,0 +1,103 @@
+.pokecard-showroom-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url('../images/pokeWall.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: #333;
+    padding: 2rem;
+  }
+  
+  .card-navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin-bottom: 1rem;
+  }
+  
+  .arrow-button {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    background-color: #ffcb05;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s;
+  }
+  
+  .arrow-button:hover {
+    background-color: #e64242;
+    color: white;
+  }
+  
+  .pokecard {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    width: 300px;
+  }
+  
+  .pokemon-image {
+     width: 150px;
+     height: 150px;
+     object-fit: contain;
+  }
+  
+  .pokemon-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .pokemon-type {
+    margin: 0.5rem 0;
+  }
+  
+  .favorite-button {
+    padding: 0.5rem 1rem;
+    background-color: #e64242;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .favorite-button:hover {
+    background-color: #ffcb05;
+    color: #333;
+  }
+  
+
+
+.showroom-content {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .pokemon-info {
+    text-align: center;
+  }
+
+  
+  .tcg-card-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pokemon-details {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: left;
+  }

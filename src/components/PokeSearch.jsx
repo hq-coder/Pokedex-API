@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SiPokemon } from 'react-icons/si';
 import { Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import PokeCard from './PokeCard';
 import './PokeSearch.css';
 
@@ -9,8 +10,9 @@ function PokeSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const [pokemonList, setPokemonList] = useState([]);
   const [lastSearchedPokemon, setLastSearchedPokemon] = useState('');
-  const videoId = 'NzxHrd53F0k';
+  const navigate = useNavigate();
 
+  // Fetch Pokémon list
   useEffect(() => {
     const fetchPokemonList = async () => {
       const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
@@ -20,23 +22,25 @@ function PokeSearch() {
     fetchPokemonList();
   }, []);
 
+  // Search Pokémon
   const handleSearch = async (e) => {
     e.preventDefault();
-    console.log(searchTerm);
-
     const API_URL = `https://pokeapi.co/api/v2/pokemon/${searchTerm.toLowerCase()}`;
-
     try {
       const response = await fetch(API_URL);
       const pokemon = await response.json();
-      console.log('line 25', pokemon);
       setResults([pokemon]);
-      setLastSearchedPokemon(searchTerm); // Update the searched Pokémon
+      setLastSearchedPokemon(searchTerm);
     } catch (error) {
       console.log(error);
       setResults([]);
-      setLastSearchedPokemon(''); // Clear if not found
+      setLastSearchedPokemon('');
     }
+  };
+
+  // Navigate to the showroom
+  const handleCardClick = (pokemon) => {
+    navigate(`/pokecard-showroom`, { state: { pokemon } });
   };
 
   const handleInputChange = (e) => {
@@ -84,7 +88,6 @@ function PokeSearch() {
           const height = pokemon.height / 10;
           const abilities = pokemon.abilities.map((ability) => ability.ability.name).join(', ');
 
-          // Regular and Shiny Sprite URLs
           const regularSprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
           const shinySprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`;
 
@@ -100,23 +103,24 @@ function PokeSearch() {
                 height: '70%',
                 border: 'none',
                 maxHeight: '40vh',
+                cursor: 'pointer',
               }}
+              onClick={() => handleCardClick(pokemon)}
             >
-              <div className="Poke-Sprites" >
-                  <Card.Img
+              <div className="Poke-Sprites">
+                <Card.Img
                   variant="top"
                   src={regularSprite}
                   alt={name}
                   style={{ width: '100px', objectFit: 'contain', marginBottom: '10px' }}
                 />
-               
                 <Card.Img
                   variant="top"
                   src={shinySprite}
                   alt={`${name} shiny`}
                   style={{ width: '100px', objectFit: 'contain' }}
                 />
-                 <h2>Shiny</h2>
+                <h2>Shiny</h2>
               </div>
               <Card.Body
                 style={{
@@ -141,7 +145,23 @@ function PokeSearch() {
         })}
 
         {/* Render PokeCard and pass the last searched Pokémon */}
-        <PokeCard searchTerm={lastSearchedPokemon} />
+        <PokeCard
+  style={{
+    cursor: 'pointer', // Add cursor pointer for the hover effect
+  }}
+  searchTerm={lastSearchedPokemon}
+  onClick={() => {
+    const selectedPokemon = results.find(
+      (p) => p.name.toLowerCase() === lastSearchedPokemon.toLowerCase()
+    );
+    if (selectedPokemon) {
+      handleCardClick(selectedPokemon);
+    } else {
+      console.error("Pokémon not found in results.");
+    }
+  }}
+/>
+
       </div>
     </div>
   );
