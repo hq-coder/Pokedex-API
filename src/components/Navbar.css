@@ -8,6 +8,7 @@ nav {
   padding: 10px;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   color: white;
+  gap:initial;
  
 }
 
@@ -64,6 +65,47 @@ a:hover {
     margin-bottom: 10px;
   }
 }
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: row; /* Stack items vertically */
+    padding: 10px; /* Reduce padding */
+  }
+
+  nav ul {
+    flex-direction: row; /* Arrange navigation items vertically */
+    align-items: center;
+  }
+
+  nav li {
+    margin: 5px 0; /* Adjust spacing between items */
+  }
+
+  nav a {
+    font-size: 1.2rem; /* Reduce font size for smaller screens */
+    padding: 0.4rem 0.8rem;
+  }
+
+  .home {
+    font-size: 1.5rem; /* Reduce title size */
+  }
+}
+
+@media (max-width: 480px) {
+  nav {
+    padding: 5px; /* Further reduce padding for very small screens */
+  }
+
+  nav a {
+    font-size: 1rem; /* Smaller font size for compact layout */
+    padding: 0.3rem 0.6rem;
+  }
+
+  .home {
+    font-size: 1.2rem;
+  }
+}
+
 
 .pikachu-image {
   position: sticky;

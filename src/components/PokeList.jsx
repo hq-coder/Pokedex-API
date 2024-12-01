@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./PokeList.css"
+import { useNavigate } from 'react-router-dom';
+import "./PokeList.css";
 import electric from "../../src/images/electric.png";
 import grass from "../../src/images/leaf.png";
 import poison from "../../src/images/poison.webp";
@@ -15,13 +16,13 @@ import dark from "../../src/images/dark.jpeg";
 import steel from "../../src/images/steel.png";
 import bannerImage from '../images/pokemon-Header.png';
 
-
-
 const PokeList = () => {
   const [allPokemons, setAllPokemons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPokemons, setFilteredPokemons] = useState([]);
+  const [tcgCards, setTcgCards] = useState({}); // Store TCG cards for each Pokémon
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllPokemons = async () => {
@@ -37,7 +38,6 @@ const PokeList = () => {
 
         const pokemonData = await Promise.all(pokemonDataPromises);
 
-        // Combine the data and set the state
         const combinedData = pokemonData.map((pokemon) => ({
           id: pokemon.id,
           name: pokemon.name,
@@ -49,7 +49,7 @@ const PokeList = () => {
         }));
 
         setAllPokemons(combinedData);
-        setLoading(false); // Set loading state to false when data is fetched
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -57,70 +57,83 @@ const PokeList = () => {
 
     fetchAllPokemons();
   }, []);
+
   useEffect(() => {
-    const filtered = allPokemons.filter(pokemon =>
+    const filtered = allPokemons.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pokemon.id.toString().includes(searchTerm.toLowerCase())
     );
     setFilteredPokemons(filtered);
   }, [allPokemons, searchTerm]);
-  
 
-  
-
-  const getBackgroundImageUrl = (type) => {
-    switch (type) {
-      case 'grass':
-        return { backgroundImage: `url("${grass}")` };
-      case 'electric':
-        return { backgroundImage: `url("${electric}")` };
-      case 'poison':
-        return { backgroundImage: `url("${poison}")` };
-      case 'fairy':
-        return { backgroundImage: `url("${fairy}")` };
-      case 'fire':
-        return { backgroundImage: `url("${fire}")` }; 
-      case 'ground':
-        return { backgroundImage: `url("${ground}")` };
-      case 'normal':
-        return { backgroundImage: `url("${normal}")` };
-        case 'water':
-          return { backgroundImage: `url("${water}")` };
-          case 'bug':
-            return { backgroundImage: `url("${grass}")` };
-            case 'fighting':
-              return { backgroundImage: `url("${ground}")` };
-              case 'psychic':
-                return { backgroundImage: `url("${poison}")` };
-                case 'rock':
-                  return { backgroundImage: `url("${ground}")` };
-                  case 'ghost':
-                return { backgroundImage: `url("${poison}")` };
-                case 'ice':
-                  return { backgroundImage: `url("${ice}")` };
-                  case 'dragon':
-                    return { backgroundImage: `url("${dragon}")` };
-                    case 'dark':
-                      return { backgroundImage: `url("${dark}")` };
-                      case 'steel':
-                        return { backgroundImage: `url("${steel}")` };
-      default:
-        return { backgroundImage: `url("./images/pokecardTemplate.png")` };
+  const fetchTcgCards = async (pokemonName) => {
+    if (tcgCards[pokemonName]) return; // Avoid fetching if already available
+    try {
+      const response = await axios.get(
+        `https://api.pokemontcg.io/v2/cards?q=name:${pokemonName}`
+      );
+      setTcgCards((prev) => ({
+        ...prev,
+        [pokemonName]: response.data.data,
+      }));
+    } catch (error) {
+      console.error(`Error fetching TCG cards for ${pokemonName}:`, error);
     }
   };
-  
-      
+
+  const handleNextCard = (pokemonName) => {
+    setTcgCards((prev) => {
+      const cards = prev[pokemonName];
+      if (!cards || cards.length === 0) return prev;
+      const [firstCard, ...restCards] = cards;
+      return {
+        ...prev,
+        [pokemonName]: [...restCards, firstCard], // Rotate cards
+      };
+    });
+  };
+
+  const handleCardView = (pokemon) => {
+    fetchTcgCards(pokemon.name);
+  };
+
+  const getBackgroundImageUrl = (type) => {
+    const typeImages = {
+      grass,
+      electric,
+      poison,
+      fairy,
+      fire,
+      ground,
+      normal,
+      water,
+      bug: grass,
+      fighting: ground,
+      psychic: poison,
+      rock: ground,
+      ghost: poison,
+      ice,
+      dragon,
+      dark,
+      steel,
+    };
+    return { backgroundImage: `url(${typeImages[type] || "./images/pokecardTemplate.png"})` };
+  };
+
+  const handlePokedexClick = (pokemon) => {
+    navigate('/pokecard-showroom', { state: { pokemon } });
+  };
+
   return (
     <div className="poke-list">
       <input
         type="text"
-        placeholder="Search Pokemons"
+        placeholder="Search Pokémon"
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
         className="search-bar"
       />
       <img src={bannerImage} alt="banner" className="pokemon-header" />
-      <br />
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -135,7 +148,6 @@ const PokeList = () => {
                   backgroundSize: "cover",
                   position: "relative",
                   overflow: "visible",
-                
                 }}
               >
                 <img
@@ -151,11 +163,74 @@ const PokeList = () => {
                 />
                 <div className="poke-details">
                   <h4>#: {pokemon.id}</h4>
-                  <div>Type: {pokemon.type}</div>
-                  <br />
+                  <div>Type: {pokemon.type.join(', ')}</div>
                   <h6>Abilities: {pokemon.abilities}</h6>
                   <h6>Moves: {pokemon.moves}</h6>
-                  <button className='pokedex-button1'>PokeDex</button>
+                  <button className="view-card-button" onClick={() => handleCardView(pokemon)}>
+                    View Card
+                  </button>
+                  {tcgCards[pokemon.name] && tcgCards[pokemon.name].length > 0 && (
+                    <div className="tcg-card">
+                      <img
+                        src={tcgCards[pokemon.name][0].images.large}
+                        alt="TCG Card"
+                        style={{ width: '100%', height: 'auto', margin: '10px 0' }}
+                      />
+                      <button
+                        className="next-card-button"
+                        onClick={() => handleNextCard(pokemon.name)}
+                      >
+                        Next Card
+                      </button>
+                    </div>
+                  )}
+                  <button
+                    className="pokedex-button2"
+                    onClick={() => handlePokedexClick(pokemon)}
+                  >
+                    Pokédex
+                  </button>
+                  {tcgCards[pokemon.name] && tcgCards[pokemon.name].length > 0 && (
+  <div
+    className="tcg-card-container"
+    style={{
+      background: '#fff',
+      borderRadius: '10px',
+      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+      overflow: 'hidden',
+      position: 'relative',
+      marginTop: '10px',
+      width: '82%',
+      height: '50%',
+      marginLeft: '9.2%',
+    }}
+  >
+    <img
+      src={tcgCards[pokemon.name][0].images.large}
+      alt="TCG Card"
+      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+    />
+    <button
+      className="next-card-button"
+      onClick={() => handleNextCard(pokemon.name)}
+      style={{
+        position: 'absolute',
+        bottom: '10px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: '#ffcb05',
+        color: '#000',
+        border: 'none',
+        borderRadius: '5px',
+        padding: '5px 10px',
+        cursor: 'pointer',
+      }}
+    >
+      Next Card
+    </button>
+  </div>
+)}
+
                 </div>
               </div>
             </div>
@@ -164,7 +239,6 @@ const PokeList = () => {
       )}
     </div>
   );
-  
 };
 
 export default PokeList;
