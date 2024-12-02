@@ -1,9 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 const PokeCard = ({ searchTerm }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sets, setSets] = useState([]);
+
+
+    // Fetch all sets on component mount
+    useEffect(() => {
+      const getSets = async () => {
+        try {
+          const response = await axios.get(`https://api.pokemontcg.io/v2/sets`, {
+            headers: {
+              'X-Api-Key': 'f578f40d-a043-4b99-a37b-3e9cca98715e',
+            },
+          });
+          setSets(response.data.data); // Store sets data
+        } catch (error) {
+          console.error('Error fetching TCG sets:', error);
+          setSets([]);
+        }
+      };
+  
+      getSets();
+    }, []);
 
   useEffect(() => {
     const getCards = async () => {
@@ -50,6 +72,12 @@ const PokeCard = ({ searchTerm }) => {
 
     getCards();
   }, [searchTerm]);
+
+    // Helper function to get release date from sets
+    const getReleaseDate = (setId) => {
+      const matchingSet = sets.find((set) => set.id === setId);
+      return matchingSet?.releaseDate || 'Unknown Release Date';
+    };
   
   function PokeCard({ searchTerm, onClick }) {
     if (!searchTerm) return null;
@@ -74,8 +102,10 @@ const PokeCard = ({ searchTerm }) => {
               <img src={card.images.small} alt={card.name} />
               <h3>{card.name}</h3>
               <p>{card.set.name}</p>
-              <p>*{card.rarity}</p>
+              <p>{card.rarity}</p>
               <p>{card.artist}</p>
+              <p>{getReleaseDate(card.set.id)}</p>
+              
             </li>
           ))}
         </ul>

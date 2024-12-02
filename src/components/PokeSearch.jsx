@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SiPokemon } from 'react-icons/si';
+import { SiBlueprint, SiPokemon } from 'react-icons/si';
 import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PokeCard from './PokeCard';
@@ -90,49 +90,45 @@ function PokeSearch() {
 
           const regularSprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
           const shinySprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`;
-
           return (
             <Card
               key={id}
               className="pokedex-container2"
               style={{
                 backgroundColor: 'transparent',
-                display: 'flex',
-                flexDirection: 'row',
-                width: '83%',
-                height: '70%',
+                position: 'relative',
+                width: '100%',
+                height: '100%',
                 border: 'none',
-                maxHeight: '40vh',
+                maxHeight: '120vh',
                 cursor: 'pointer',
+                display: 'flex', // Apply Flexbox for centering
+                flexDirection: 'column', // Arrange items vertically
+                justifyContent: 'center', // Center content vertically
+                alignItems: 'center', // Center content horizontally
               }}
               onClick={() => handleCardClick(pokemon)}
             >
-              <div className="Poke-Sprites">
+              <div className="Poke-Sprites" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                 <Card.Img
                   variant="top"
                   src={regularSprite}
                   alt={name}
-                  style={{ width: '100px', objectFit: 'contain', marginBottom: '10px' }}
+                  style={{ width: '200px', objectFit: 'contain', marginBottom: '10px' }}
                 />
+              
                 <Card.Img
                   variant="top"
                   src={shinySprite}
                   alt={`${name} shiny`}
-                  style={{ width: '100px', objectFit: 'contain' }}
+                  style={{ width: '200px', objectFit: 'contain' }}
                 />
-                <h2>Shiny</h2>
+               
               </div>
-              <Card.Body
-                style={{
-                  width: '55%',
-                  objectFit: 'contain',
-                  maxHeight: '700vh',
-                  overflow: 'auto',
-                  paddingLeft: '13%',
-                  marginTop: '15%',
-                  marginLeft: '-10px',
-                }}
-              >
+          
+              <Card.Body style={{ background: 'transparent',
+      textAlign: 'center',
+      padding: '10px' }}>
                 <Card.Title className="pokename capitalized underline">{name}</Card.Title>
                 <Card.Text>#: {id}</Card.Text>
                 <Card.Text>Type: {type}</Card.Text>
@@ -142,6 +138,7 @@ function PokeSearch() {
               </Card.Body>
             </Card>
           );
+          
         })}
 
         {/* Render PokeCard and pass the last searched Pokémon */}

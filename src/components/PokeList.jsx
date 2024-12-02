@@ -22,6 +22,7 @@ const PokeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [tcgCards, setTcgCards] = useState({}); // Store TCG cards for each Pokémon
+  const [modalPokemon, setModalPokemon] = useState(null); // For modal
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,8 +94,14 @@ const PokeList = () => {
     });
   };
 
+  
   const handleCardView = (pokemon) => {
     fetchTcgCards(pokemon.name);
+    setModalPokemon(pokemon);
+  };
+
+  const handleCloseCardView = () => {
+    setModalPokemon(null);
   };
 
   const getBackgroundImageUrl = (type) => {
@@ -137,6 +144,7 @@ const PokeList = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
+
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-center g-">
           {filteredPokemons.map((pokemon) => (
             <div key={pokemon.id} className="col">
@@ -169,72 +177,33 @@ const PokeList = () => {
                   <button className="view-card-button" onClick={() => handleCardView(pokemon)}>
                     View Card
                   </button>
-                  {tcgCards[pokemon.name] && tcgCards[pokemon.name].length > 0 && (
-                    <div className="tcg-card">
-                      <img
-                        src={tcgCards[pokemon.name][0].images.large}
-                        alt="TCG Card"
-                        style={{ width: '100%', height: 'auto', margin: '10px 0' }}
-                      />
-                      <button
-                        className="next-card-button"
-                        onClick={() => handleNextCard(pokemon.name)}
-                      >
-                        Next Card
-                      </button>
-                    </div>
-                  )}
+                  
+  
                   <button
                     className="pokedex-button2"
                     onClick={() => handlePokedexClick(pokemon)}
                   >
                     Pokédex
                   </button>
-                  {tcgCards[pokemon.name] && tcgCards[pokemon.name].length > 0 && (
-  <div
-    className="tcg-card-container"
-    style={{
-      background: '#fff',
-      borderRadius: '10px',
-      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-      overflow: 'hidden',
-      position: 'relative',
-      marginTop: '10px',
-      width: '82%',
-      height: '50%',
-      marginLeft: '9.2%',
-    }}
-  >
-    <img
-      src={tcgCards[pokemon.name][0].images.large}
-      alt="TCG Card"
-      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-    />
-    <button
-      className="next-card-button"
-      onClick={() => handleNextCard(pokemon.name)}
-      style={{
-        position: 'absolute',
-        bottom: '10px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        backgroundColor: '#ffcb05',
-        color: '#000',
-        border: 'none',
-        borderRadius: '5px',
-        padding: '5px 10px',
-        cursor: 'pointer',
-      }}
-    >
-      Next Card
-    </button>
-  </div>
-)}
-
-                </div>
+ </div>
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {modalPokemon && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>{modalPokemon.name}</h2>
+            {tcgCards[modalPokemon.name] && tcgCards[modalPokemon.name].length > 0 && (
+              <div className="tcg-card">
+                <img src={tcgCards[modalPokemon.name][0].images.large} alt="TCG Card" />
+                <button className="modalbutton" onClick={() => handleNextCard(modalPokemon.name)}>Next Card</button>
+              </div>
+            )}
+            <button className="modalbutton" onClick={handleCloseCardView}>Close</button>
+          </div>
         </div>
       )}
     </div>
@@ -242,3 +211,4 @@ const PokeList = () => {
 };
 
 export default PokeList;
+
