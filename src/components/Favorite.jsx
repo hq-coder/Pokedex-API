@@ -7,18 +7,23 @@ const Favorites = ({ favorites }) => {
     <div className="favorites-container">
       <h2>Favorites</h2>
       <div className="favorites-grid">
-        {favorites.map((pokemon, index) => (
+        {favorites.map((favorite, index) => (
           <Card key={index} className="favorite-card">
             <Card.Img
               variant="top"
-              src={pokemon.sprites.front_default}
-              alt={pokemon.name}
+              src={favorite.pokemon.sprite}
+              alt={favorite.pokemon.name}
             />
             <Card.Body>
-              <Card.Title>{pokemon.name.toUpperCase()}</Card.Title>
+              <Card.Title>{favorite.pokemon.name.toUpperCase()}</Card.Title>
               <Card.Text>
-                Type: {pokemon.types.map((type) => type.type.name).join(', ')}
+                Type: {favorite.pokemon.types.map((type) => type.type.name).join(', ')}
               </Card.Text>
+              {favorite.card && (
+                <Card.Text>
+                  TCG Card: {favorite.card.name}
+                </Card.Text>
+              )}
             </Card.Body>
           </Card>
         ))}
@@ -26,5 +31,6 @@ const Favorites = ({ favorites }) => {
     </div>
   );
 };
+
 
 export default Favorites;

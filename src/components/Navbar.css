@@ -1,149 +1,199 @@
+/* General Navbar Styling */
+.nav-container {
+  position: relative;
+  width: 100%;
+  background-color: #ffd700; /* Yellow background for a Pokémon feel */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  font-family: 'Comic Sans MS', cursive, sans-serif; /* Pokémon theme font */
+  z-index: 9999; /* Ensure it's on top of other content */
+}
+
 nav {
-  background: linear-gradient(to right, #333333 , #000000 90%);
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  padding: 10px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  color: white;
-  gap:initial;
- 
+  justify-content: space-between; /* Space out nav items */
+  width: 100%;
 }
 
-nav a {
+.nav-links {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50%;
-  color: rgb(1, 90, 101);
-  text-decoration: none;
-  transition: color 0.1s ease-in-out;
-  background: rgba(255, 255, 255, 0.758);
-  padding: 0.9rem;
-  border-radius: 12%;
-  font-size: 2rem;;
-  box-shadow: 2px 2px 12px rgb(0, 162, 255);
-  margin-top: 20px;
-}
-
-
-ul {
-  display: flex;
+  justify-content: space-between; /* Ensure items are spaced out */
   list-style-type: none;
-  margin: 0;
-  padding: 0;
-  z-index: 9999;
-
-
+  padding: 0px;
+  margin: 0px;
+  flex-grow: 1; /* Allow the links container to take up all available space */
 }
 
-li {
-  margin-right: 20px;
+.nav-links li {
+  margin-right: 30px; /* Adjust this value to control space between links */
+}
+
+.nav-links a {
+  display: flex;
+  text-decoration: none;
+  color: #ffd500; /* Blue color for text */
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 0px 0px;
+  transition: all 0.3s ease-in-out;
+  text-shadow: 
+    2px 2px 2px #1761ff, /* Shadow for top-left */
+    -2px -2px 2px #1761ff, /* Shadow for bottom-right */
+    2px -2px 2px #1761ff, /* Shadow for top-right */
+    -2px 2px 2px #1761ff; /* Shadow for bottom-left */
+  border-radius: 5px;
+}
+
+.navpokeball{
+color: rgb(255, 0, 0);
+font-size:2.0rem;
+animation: flashColors 1.5s infinite;
+}
+
+@keyframes flashColors {
+  0% {
+    color: red; /* Start with red */
+  }
+  33% {
+    color: blue; /* Change to blue */
+  }
+  66% {
+    color: green; /* Change to green */
+  }
+  100% {
+    color: red; /* Return to red */
+  }
+}
+
+
+.nav-links a:hover {
+  color: white;
+  background-color: #007bff;
+  text-shadow: 3px 3px 5px rgba(255, 0, 0, 0.7);
+  border-radius: 5px;
 }
 
 .home {
-  color: white;
-  font-size: 44px;
+  font-size: 1.6rem;
+  color: #007bff;
+  margin-right: auto; /* Push the Home link to the left */
 }
 
-a:hover {
-  color: white;
-  text-shadow: 3px 3px 3px red; 
+.nav-images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-
-
-
-@media screen and (max-width: 600px) {
-  .search-container {
-    float: none;
-  }
-  input[type=text] {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  nav {
-    flex-direction: row; /* Stack items vertically */
-    padding: 10px; /* Reduce padding */
-  }
-
-  nav ul {
-    flex-direction: row; /* Arrange navigation items vertically */
-    align-items: center;
-  }
-
-  nav li {
-    margin: 5px 0; /* Adjust spacing between items */
-  }
-
-  nav a {
-    font-size: 1.2rem; /* Reduce font size for smaller screens */
-    padding: 0.4rem 0.8rem;
-  }
-
-  .home {
-    font-size: 1.5rem; /* Reduce title size */
-  }
-}
-
-@media (max-width: 480px) {
-  nav {
-    padding: 5px; /* Further reduce padding for very small screens */
-  }
-
-  nav a {
-    font-size: 1rem; /* Smaller font size for compact layout */
-    padding: 0.3rem 0.6rem;
-  }
-
-  .home {
-    font-size: 1.2rem;
-  }
-}
-
 
 .pikachu-image {
-  position: sticky;
-  top: 10px;
-  right: -100px;
+  width: 70px;
   animation: movePikachu 11s linear infinite;
-  height: 70px;
+  position: absolute;
+  top: 10px;
+  left: -100px;
   z-index: 10;
+  transform: scaleX(-1);;
 }
 
 @keyframes movePikachu {
   0% {
-    right: -100px;
-    left: 100%;
+    left: -100px;
   }
   100% {
-    right: 100%;
-    left: -100px;
+    left: 100%;
   }
 }
 
 .rolling-pokeball {
-  position: sticky;
+  width: 30px;
+  animation: rolling-pokeball 10.5s linear infinite;
+  position: absolute;
   top: 20px;
   right: -90px;
-  animation: rolling-pokeball 10.5s linear infinite;
-  height: 20px;
   z-index: 10;
 }
 
 @keyframes rolling-pokeball {
-  0% {
-    right: -100px;
-    left: 100%;
-  }
   100% {
-    right: 100%;
     left: -100px;
+  }
+  0% {
+    left: 100%;
   }
 }
 
+/* Mobile / Tablet Responsiveness */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 8px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .nav-links {
+    display: none; /* Hide links initially */
+    flex-direction: column;
+    width: 100%;
+    background-color: #ffd700;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-links li {
+    margin-right: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    
+
+  }
+
+  .nav-links a {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    padding: 12px;
+    
+    
+  }
+
+  .nav-container.open .nav-links {
+    display: flex; /* Show the links when the menu is open */
+  }
+
+  .hamburger {
+    display: block;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #007bff;
+    background-color: transparent;
+    border: none;
+  }
+
+  .nav-images {
+    display: none;
+  }
+}
+
+/* Desktop Hamburger Menu Icon */
+.hamburger {
+  display: none;
+}
+
+/* Show hamburger on smaller devices */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+}

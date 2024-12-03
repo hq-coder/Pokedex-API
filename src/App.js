@@ -2,6 +2,7 @@ import './App.css';
 import './styles.scss';
 import PokeList from './components/PokeList';
 import PokeCard from './components/PokeCard';
+import PokeLog from './components/signin';
 import PokeSearch from './components/PokeSearch';
 import PokeCardShowRoom from './components/PokeCardShowroom';
 import Favorites from './components/Favorite';
@@ -18,11 +19,12 @@ function App() {
   const handleAddToFavorites = (pokemon) => {
     // Prevent duplicate entries
     setFavorites((prevFavorites) =>
-      prevFavorites.some((fav) => fav.name === pokemon.name)
+      prevFavorites.some((fav) => fav.pokemon.id === pokemon.id)
         ? prevFavorites
         : [...prevFavorites, pokemon]
     );
   };
+  
 
   return (
     <div className="App">
@@ -33,19 +35,22 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/PokeList" element={<PokeList />} />
+          <Route path="/signin" element={<PokeLog />} />
+          <Route path="/Favorite" element={<Favorites />} />
           <Route path="/pokecard" element={<PokeCard />} />
           <Route path="/PokeSearch" element={<PokeSearch />} />
-          <Route path="/pokecard-showroom" element={<PokeCardShowRoom />} />
-     
+          
+          {/* Updated this route to pass the onFavoriteAdd function */}
           <Route
             path="/pokecard-showroom"
             element={
               <PokeCardShowRoom
-                selectedPokemon={null} // For random cards initially
-                onFavoriteAdd={handleAddToFavorites}
+                onFavoriteAdd={handleAddToFavorites} // Pass the function here
               />
             }
           />
+          
+          {/* Favorites page */}
           <Route path="/favorites" element={<Favorites favorites={favorites} />} />
         </Routes>
         <Footer />

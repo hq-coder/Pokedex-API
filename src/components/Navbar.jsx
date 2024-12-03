@@ -10,25 +10,27 @@ function Navbar() {
       <nav>
         <ul className="nav-links">
           <li className="home">
-            <a href="/">
-              <TbPokeball /> Home
+            <a  href="/">
+              <span className="navpokeball">
+              <TbPokeball /> 
+              </span>
             </a>
           </li>
           <li>
             <a href="/pokelist">PokeList</a>
           </li>
           <li>
-            <a href="/pokecard-showroom">PokeCard Show Room</a>
+            <a href="/pokecard-showroom">PokeDex</a>
           </li>
           <li>
             <a href="/pokesearch">PokeSearch</a>
           </li>
           <li>
-            <a href="/favorites">Favorites</a>
+            <a href="/favorites">PokeFavs</a>
           </li>
 
           <li>
-            <a href="/signin">Sign In</a>
+            <a href="/signin">PokeLog</a>
           </li>
         </ul>
       </nav>
