@@ -46,11 +46,13 @@ const Home = () => {
 
   return (
     <div className='home-container'>
-      <div className='header-container'>
+
+      <div className='poke-header-container'>
         <img src={bannerImage} alt='banner' />
       </div>
-      <div className='pokedex-container'>
-        <div className='pokedex-img-container'>
+
+         <div className='pokedex-container'>
+            <div className='pokedex-img-container'>
           <img src={pokedexImg} alt='pokedex' className='pokedex-img' />
 
           <a href='/PokeList'>
@@ -64,12 +66,16 @@ const Home = () => {
               POKÉDEX <br /> DATA
             </button>
           </a>
-
-          <button className='pokedex-button-2' onClick={() => { console.log('Clicked on second button!')}}>
+          
+          <a href='/pokecard-showroom'>
+          <button className='pokedex-button-2'
+           onClick={() => { console.log('Clicked on second button!')}}>
             TRAINERS
           </button>
+          </a>
+          </div>
+            
 
-        </div>
         <img src={currentImage} alt='charizard' className='charizard-img' /> {/* Use the currentImage state instead of charizardImg directly */}
        
         <p ref={pRef}>
@@ -81,7 +87,9 @@ In addition to evolution stages, the hqCoder Pokedex also provides information o
 
 So take a look around the hqCoder Pokedex and see what you can find! With its vast collection of information and stats on all your favorite Pokemon species, you're sure to become a master trainer in no time. But be careful not to let Pikachu catch the berry!</p>
 
- </div>
+        </div>
+
+        
  <div className='pokedex-vid'><iframe width="560" height="315" src="https://www.youtube.com/embed/lpJJBfJYAnY?start=4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
     </div>
     
